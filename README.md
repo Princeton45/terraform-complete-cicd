@@ -23,27 +23,26 @@ I built an end-to-end CI/CD pipeline that includes infrastructure provisioning u
 
 ### 1. Continuous Integration (CI)
 #### Build Artifact
-- Pulls source code from Git repository
-- Builds Java application using Maven
-- Runs unit tests
-- Generates JAR artifact
+- Pulls source code from Git repository.
+- Builds Java application using Maven.
+- Runs unit tests.
+- Generates JAR artifact.
 
 #### Docker Image Creation
-- Builds Docker image using the generated artifact
-- Tags the Docker image
-- Pushes the image to Docker Hub
+- Builds Docker image using the Dockerfile that contains the location of the generated artifact.
+- Tags the Docker image.
+- Pushes the image to Docker Hub.
 
 ### 2. Continuous Deployment (CD)
 #### Infrastructure Provisioning
-- Executes Terraform configurations
-- Creates SSH key pair for EC2 access
-- Provisions EC2 instance on AWS
-- Configures security groups and networking
-
+- Executes Terraform configurations.
+- Creates SSH key pair for EC2 access.
+- Provisions EC2 instance on AWS.
+- Configures security groups and networking.
 #### Application Deployment
-- Connects to provisioned EC2 instance
-- Pulls Docker image from Docker Hub
-- Deploys application using Docker Compose
+- Connects to provisioned EC2 instance.
+- Pulls Docker image from Docker Hub.
+- Deploys application using Docker Compose.
 
 ## Infrastructure Setup
 
@@ -54,8 +53,7 @@ I built an end-to-end CI/CD pipeline that includes infrastructure provisioning u
 - Installed Terraform on Jenkins container
 
 ### Security Configuration
-- Generated SSH key pairs for secure EC2 access
-- Configured AWS IAM roles and permissions
+- Generated an SSH key pairs for secure EC2 access
 
 ## Pipeline Steps
 
@@ -75,4 +73,9 @@ I built an end-to-end CI/CD pipeline that includes infrastructure provisioning u
    - Set up automated deployment to the provisioned EC2 instance
 
 ![Deployment Architecture](suggested-image: diagram showing the deployed application architecture)
+
+
+
+
+
 
