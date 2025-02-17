@@ -2,7 +2,7 @@
 
 A complete CI/CD pipeline that automates the entire process from building Java applications to deploying on automatically provisioned AWS EC2 instances using Terraform.
 
-   ![Flow](https://github.com/Princeton45/DevOps-Cloud-Resume-Challenge/blob/master/images/image%20(1).png)
+   ![diagram](https://github.com/Princeton45/terraform-complete-cicd/blob/master/images/diagram.jpg)
 
 ## Technologies Used
 - Terraform
