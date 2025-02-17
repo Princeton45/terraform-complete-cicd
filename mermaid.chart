@@ -1,0 +1,19 @@
+graph TD
+    A[Developer Push Code] --> B[Git Repository]
+    B --> C[Jenkins Pipeline Trigger]
+    
+    subgraph CI [Continuous Integration]
+        C --> D[Build Java Artifact]
+        D --> E[Run Tests]
+        E --> F[Build Docker Image]
+        F --> G[Push to Docker Hub]
+    end
+    
+    subgraph CD [Continuous Delivery]
+        G --> H[Terraform Init]
+        H --> I[Provision EC2 Instance]
+        I --> J[Configure SSH Access]
+        J --> K[Pull Docker Image]
+        K --> L[Deploy with Docker Compose]
+    end
+    
