@@ -1,11 +1,6 @@
 pipeline {
     agent any
     
-    parameters {
-        choice(name: 'ACTION', choices: ['deploy', 'destroy'], description: 'Select action to perform')
-        booleanParam(name: 'CONFIRM_DESTROY', defaultValue: false, description: 'Confirm infrastructure destruction')
-    }
-    
     tools {
         maven 'maven-3.9.9'
     }
@@ -15,11 +10,7 @@ pipeline {
     }
     
     stages {
-        // Only run build and deploy stages if ACTION is 'deploy'
         stage("build app") {
-            when {
-                expression { params.ACTION == 'deploy' }
-            }
             steps {
                 script {
                     echo 'building the application...'
@@ -29,9 +20,6 @@ pipeline {
         }
         
         stage('build image') {
-            when {
-                expression { params.ACTION == 'deploy' }
-            }
             steps {
                 script {
                     echo "building the docker image..."
@@ -43,34 +31,27 @@ pipeline {
                 }
             }
         }
-
         stage("provision server") {
-            when {
-                expression { params.ACTION == 'deploy' }
-            }
             environment {
                 AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
                 AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
                 TF_VAR_env_prefix = 'test'
             }
-            steps {
-                script {
-                    dir('terraform') {
-                        sh "terraform init"
-                        sh "terraform apply --auto-approve"
-                        EC2_PUBLIC_IP = sh(
-                            script: "terraform output ec2_public_ip",
-                            returnStdout: true
-                        ).trim()
-                    }
+        steps {
+            script {
+                dir('terraform') {
+                    sh "terraform init"
+                    sh "terraform apply --auto-approve"
+                    EC2_PUBLIC_IP = sh(
+                        script: "terraform output ec2_public_ip",
+                        returnStdout: true
+                    ).trim()
                 }
             }
         }
 
+    }
         stage("deploy") {
-            when {
-                expression { params.ACTION == 'deploy' }
-            }
             environment {
                 DOCKER_CREDS = credentials('docker-hub-repo')
             }
@@ -94,48 +75,5 @@ pipeline {
             }
         }
 
-        stage("destroy infrastructure") {
-            when {
-                allOf {
-                    expression { params.ACTION == 'destroy' }
-                    expression { params.CONFIRM_DESTROY == true }
-                }
-            }
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
-                AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
-                TF_VAR_env_prefix = 'test'
-            }
-            steps {
-                script {
-                    // Additional confirmation step
-                    input message: 'Are you absolutely sure you want to destroy the infrastructure?', ok: 'Yes, destroy it'
-                    
-                    dir('terraform') {
-                        try {
-                            sh "terraform init"
-                            sh "terraform destroy --auto-approve"
-                            echo "Infrastructure destroyed successfully"
-                        } catch (Exception e) {
-                            error "Failed to destroy infrastructure: ${e.getMessage()}"
-                        }
-                    }
-                }
-            }
-            post {
-                success {
-                    echo "Cleanup completed successfully"
-                }
-                failure {
-                    echo "Destruction failed. Please check the logs and manually verify the infrastructure state"
-                }
-            }
-        }
-    }
-    
-    post {
-        always {
-            cleanWs() // Clean workspace after pipeline execution
-        }
     }
 }
