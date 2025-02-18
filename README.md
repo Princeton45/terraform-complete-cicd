@@ -17,8 +17,6 @@ A complete CI/CD pipeline that automates the entire process from building Java a
 
 I built an end-to-end CI/CD pipeline that includes infrastructure provisioning using Terraform. The pipeline automatically builds Java applications, creates Docker images, provisions EC2 instances, and deploys the application.
 
-![CI/CD Steps](suggested-image: flowchart showing the 4 main pipeline steps)
-
 ## Pipeline Flow
 
 ### 1. Continuous Integration (CI)
