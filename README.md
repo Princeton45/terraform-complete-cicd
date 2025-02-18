@@ -47,13 +47,20 @@ I built an end-to-end CI/CD pipeline that includes infrastructure provisioning u
 ## Infrastructure Setup
 
 ### Prerequisites
-- Created an AWS account and configured credentials
 - Set up a Jenkins server with Docker installed
-- Configured Docker Hub account for image storage
-- Installed Terraform on Jenkins container
+- Installed Terraform on Jenkins container - https://developer.hashicorp.com/terraform/install
+
+   ![terraform-install](https://github.com/Princeton45/terraform-complete-cicd/blob/main/images/terraform-install.png)
+
 
 ### Security Configuration
-- Generated an SSH key pairs for secure EC2 access
+- Generated an SSH key pair for the EC2 instance and added the .pem contents in Jenkins as a credential.
+- Jenkins will be able to SSH into the EC2 instance to deploy the application using the .pem key.
+
+   ![key-pair](https://github.com/Princeton45/terraform-complete-cicd/blob/main/images/key-pair.png)
+
+   ![ssh-jenkins](https://github.com/Princeton45/terraform-complete-cicd/blob/main/images/ssh-jenkins.png)
+
 
 ## Pipeline Steps
 
