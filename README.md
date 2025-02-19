@@ -2,7 +2,7 @@
 
 A complete CI/CD pipeline that automates the entire process from building Java applications to deploying on automatically provisioned AWS EC2 instances using Terraform.
 
-   ![diagram](https://github.com/Princeton45/terraform-complete-cicd/blob/main/images/diagram.jpg)
+   ![diagram2](https://github.com/Princeton45/terraform-complete-cicd/blob/main/images/diagram2.jpg)
 
 ## Technologies Used
 - Terraform

@@ -9,7 +9,7 @@ graph TD
         F --> G[Push to Docker Hub]
     end
     
-    subgraph CD [Continuous Delivery]
+    subgraph CD [Continuous Deployment]
         G --> H[Terraform Init]
         H --> I[Provision EC2 Instance]
         I --> J[Configure SSH Access]
